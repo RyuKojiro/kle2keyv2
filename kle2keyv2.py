@@ -15,8 +15,18 @@ for arg in sys.argv[1:]:
             lay = list()
             leg = list()
 
+            w = 1
             for key in row:
-                lay.append(1)
+                if type(key) is dict:
+                    if 'x' in key:
+                        lay.append(0 - key['x'])
+                    if 'w' in key:
+                        w = key['w']
+                else:
+                    lay.append(w)
+                    legs = key.split("\n")
+                    leg.append(legs[-1])
+                    w = 1
 
             layout.append(lay)
             legends.append(leg)
