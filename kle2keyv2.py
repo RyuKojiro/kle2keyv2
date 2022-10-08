@@ -12,6 +12,15 @@ parser.add_argument('files', type=str, nargs='+',
 
 args = parser.parse_args()
 
+def sanitizedLegend(unsafe):
+    legends = key.split("\n")
+    legend = legends[-1]
+
+    if legend is '\\':
+        return '\\\\'
+
+    return legend
+
 for arg in args.files:
     with open(arg) as fp:
         basename = os.path.splitext(os.path.basename(arg))[0]
@@ -32,8 +41,7 @@ for arg in args.files:
                         w = key['w']
                 else:
                     lay.append(w)
-                    legs = key.split("\n")
-                    leg.append(legs[-1])
+                    leg.append(sanitizedLegend(key))
                     w = 1
 
             layout.append(lay)
