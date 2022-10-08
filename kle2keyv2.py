@@ -40,7 +40,7 @@ for arg in sys.argv[1:]:
         print("")
         print("%s_legends = [" % basename)
         for row in legends:
-            print('\t' + str(row) + ',')
+            print('\t["' + '", "'.join(row) + '"],')
         print("];")
         print("")
         print("module %s_default(profile) {" % basename)
