@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 
 import json
-import sys
 import os
+import argparse
 
-for arg in sys.argv[1:]:
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('-I', dest='layout_path', default='..',
+                    help='path to layout directory in KeyV2 (default: ../)')
+parser.add_argument('files', type=str, nargs='+',
+                    help='files to convert')
+
+args = parser.parse_args()
+
+for arg in args.files:
     with open(arg) as fp:
         basename = os.path.splitext(os.path.basename(arg))[0]
         j = json.load(fp)
@@ -31,7 +39,7 @@ for arg in sys.argv[1:]:
             layout.append(lay)
             legends.append(leg)
 
-        print("include <KeyV2/src/layout/layout.scad>")
+        print("include <%s/layout.scad>"%args.layout_path)
         print("")
         print("%s_layout = [" % basename)
         for row in layout:
