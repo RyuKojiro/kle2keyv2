@@ -16,7 +16,7 @@ def sanitizedLegend(unsafe):
     legends = key.split("\n")
     legend = legends[-1]
 
-    if legend is '\\':
+    if legend == '\\':
         return '\\\\'
 
     return legend
