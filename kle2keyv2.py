@@ -7,6 +7,8 @@ import argparse
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('-I', dest='layout_path', default='..',
                     help='path to layout directory in KeyV2 (default: ../)')
+parser.add_argument('--no-legends', dest='enable_legends', action='store_false',
+                    help='Disables key legends')
 parser.add_argument('files', type=str, nargs='+',
                     help='files to convert')
 
@@ -54,11 +56,17 @@ for arg in args.files:
             print('\t' + str(row) + ',')
         print("];")
         print("")
-        print("%s_legends = [" % basename)
-        for row in legends:
-            print('\t["' + '", "'.join(row) + '"],')
-        print("];")
-        print("")
+        if args.enable_legends:
+            print("%s_legends = [" % basename)
+            for row in legends:
+                print('\t["' + '", "'.join(row) + '"],')
+            print("];")
+            print("")
         print("module %s_default(profile) {" % basename)
-        print("\tlayout(%s_layout, profile, %s_legends) children();" % (basename, basename))
+
+        if args.enable_legends:
+            print("\tlayout(%s_layout, profile, %s_legends) children();" % (basename, basename))
+        else:
+            print("\tlayout(%s_layout, profile) children();" % basename)
+
         print("}")
